@@ -21,7 +21,7 @@ def encode_sentences(sentence, tokenizer, max_length=64):
     return input_ids, attention_mask
 
 
-def get_BERT_hidden_state(text=""):
+def get_bert_features(text=""):
     text = "Here is a sample sentence, which I want its embeddings."
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')  # Initializing the Tokenizer
     model = BertModel.from_pretrained('bert-base-uncased', output_hidden_states=True,
