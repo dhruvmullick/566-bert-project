@@ -1,4 +1,4 @@
-def eeg_feature_extractor(word_list):
+def get_eeg_data_for_words(word_list):
     main_list = []
     for participant in range(1):   # change to number of participant
         single_participant = {}
