@@ -42,6 +42,6 @@ class EegLinearRegression:
         return np.average(np.array(scores))
 
     # Evaluate the LR model by giving an accuracy value. Will accept type of evaluation as well.
-    def evaluation(self, x, y, cv_type=cv_types.nested_cv):
+    def evaluate(self, x, y, cv_type=cv_types.nested_cv):
         if cv_type == self.cv_types.nested_cv:
             return self.__nested_cv_score(self, x, y)

@@ -1,4 +1,4 @@
-def eeg_feature_extractor(sentence_list):
+def extract_eeg_feature_for_sentences(sentence_list):
     main_list = []
     for participant in range(1):   # change to number of participant
         #single_participant = {}
@@ -24,9 +24,6 @@ def eeg_feature_extractor(sentence_list):
         #main_list.append(single_participant)
         main_list.append(matrix)
     return main_list
-                
-            
-data = eeg_feature_extractor(train_set)
 
 #Participant - Sentence - Word
-print(data[0][0][1].shape)    
+# data = eeg_feature_extractor(train_set)

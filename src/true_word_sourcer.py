@@ -22,7 +22,7 @@ def get_sentence():
     return sentence
 
     
-def true_word_sourcer(proportion):
+def get_sentences_by_proportion(proportion=80):
     proportion/=100
     df = pd.read_csv('dataset.csv')
     words = list(df['Word'])
@@ -39,8 +39,8 @@ def true_word_sourcer(proportion):
     for i in final_sentence:print(i,'\n')
     partition_point = int(proportion*len(final_sentence))
     train_set,testing_set = final_sentence[:partition_point],final_sentence[partition_point:]
-    return [train_set,testing_set]
+    return train_set, testing_set
 
-data = true_word_sourcer(90)
-train_set = data[0]
-test_set = data[1]
+# data = true_word_sourcer(90)
+# train_set = data[0]
+# test_set = data[1]

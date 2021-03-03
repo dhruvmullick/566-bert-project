@@ -49,6 +49,11 @@ def get_bert_features(text=""):
     # It is not in format of Pytorch Tensors
 
 
+def get_bert_features_for_layer(text="", layer=12):
+    bert_features_for_all_layers = get_bert_features(text)
+    return bert_features_for_all_layers[layer]
+
+
 def BERT_EEG_compatibility(hidden_states, subtoken_indices):
     hidden_states_numpy = []
     for hidden_state in hidden_states:
