@@ -27,4 +27,6 @@ def eeg_feature_extractor(sentence_list):
                 
             
 data = eeg_feature_extractor(train_set)
-    
+
+#Participant - Sentence - Word
+print(data[0][0][1].shape)    
