@@ -1,3 +1,6 @@
+import scipy
+
+
 def extract_eeg_feature_for_sentences(sentence_list):
     main_list = []
     for participant in range(1):   # change to number of participant

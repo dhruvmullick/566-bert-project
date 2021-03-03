@@ -1,5 +1,8 @@
-torch>=1.7.1
-numpy>=1.20.1
-pandas>=1.2.2
-transformers>=4.3.2
-sklearn>=0.0
+torch
+numpy
+pandas
+transformers
+sklearn
+scipy
+random2
+matplotlib
