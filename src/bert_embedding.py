@@ -1,5 +1,6 @@
 from transformers import BertTokenizer, BertModel
 import torch
+import numpy as np
 
 
 def encode_sentences(sentence, tokenizer, max_length=64):
@@ -34,9 +35,65 @@ def get_bert_features(text=""):
     # last_hidden_state = outputs[0]
     # pooler_output = outputs[1]
     hidden_states = outputs[2]
-    return hidden_states
-    # hidden-states of the model at the output of each layer + the initial embedding outputs (so, it includes 12 + 1 = 13 tensors)
 
+    ### for finding subtokens and make it compatible with EEG ###
+    textt = "[CLS] " + text + " [SEP]"
+    tokenized_text = tokenizer.tokenize(textt)
+    subtoken_indices = [i for i in range(len(tokenized_text)) if "#" in tokenized_text[i]]
+    ##################################################################
+
+    compatible_hidden_states = BERT_EEG_compatibility(hidden_states=hidden_states, subtoken_indices=subtoken_indices)
+    return compatible_hidden_states
+    # hidden-states of the model at the output of each layer + the initial embedding outputs (so, it includes 12 + 1 = 13 tensors)
+    # It is in format of Numpy Arrays for ease of use with Ridge Regression
+    # It is not in format of Pytorch Tensors
+
+
+def BERT_EEG_compatibility(hidden_states, subtoken_indices):
+    hidden_states_numpy = []
+    for hidden_state in hidden_states:
+        hidden_state_numpy = hidden_state[0].cpu().detach().numpy()
+        root_index = 0
+        previous_subtoken = 0
+        new_token = False
+        total_subtokens = 1
+        for subtoken_index in subtoken_indices:
+            # ----- Just an initialization for the first subtoken -----
+            if previous_subtoken == 0:
+                previous_subtoken = subtoken_index
+            if root_index == 0:
+                root_index = subtoken_index - 1
+            # --------------------------------
+
+            if subtoken_index - previous_subtoken > 1:
+                ### We are moving to a new token.
+                ### First, we Average the previous token and it's subs embedding
+                ### Then, we delete those subtokens from output (To use EEG Representation)
+                hidden_state_numpy[root_index] = hidden_state_numpy[root_index] / total_subtokens
+                for i in range(1, total_subtokens):
+                    # Removing Subtokens embedding after averaging the root node from output and insert a list of zeros at the end to mainain the size
+                    np.delete(hidden_state_numpy, root_index + 1, 0)
+                    np.vstack((hidden_state_numpy, np.random.uniform(-0.5, 0.5, 768)))
+
+                total_subtokens = 2
+                root_index = subtoken_index - 1
+            else:
+                new_token = False
+                total_subtokens += 1
+                previous_subtoken = subtoken_index
+                hidden_state_numpy[root_index] += hidden_state_numpy[subtoken_index]
+
+        for i in range(1, total_subtokens):
+            # Removing Subtokens embedding after averaging the root node from output and insert a list of zeros at the end to mainain the size
+            np.delete(hidden_state_numpy, root_index + 1, 0)
+            np.vstack((hidden_state_numpy, np.random.uniform(-0.5, 0.5, 768)))
+
+        hidden_states_numpy.append(hidden_state_numpy)
+
+    hidden_states_numpy = np.asarray(hidden_states_numpy)
+    return hidden_states_numpy
+
+##################### Some Information and Exmaples of how we can use this by Arad  🤗 ############################
 # hidden_states[12] == last_hidden_state  # just to verify
 # print(len(hidden_states[12]))  # It is the batch size, which is 1 here
 # print(len(hidden_states[12][0]))  # It is the size of our padding which is 64
@@ -48,7 +105,6 @@ def get_bert_features(text=""):
 # # Important point to remember Hidden_states[0] iis just the initial embedding outputs.
 # # So, Keep in mind that if we want the first layer's output, we should consider this: hidden_states[1] not hidden_states[0]
 # # and similarly, when we want the 12th layer's output, we should run : hidden_states[12] not hidden_states[11]
-# # 🤗
 # hidden_states[12][0][9]
 #
 # # it is the embedding for the 20th token, from the 5th layer:
