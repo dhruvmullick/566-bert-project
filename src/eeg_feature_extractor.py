@@ -1,11 +1,10 @@
 import scipy
-
-
+import numpy as np
 def extract_eeg_feature_for_sentences(sentence_list):
     main_list = []
     for participant in range(1):   # change to number of participant
         #single_participant = {}
-        mat_file = scipy.io.loadmat('proc/S01.mat')    #Convert to loop by adding all the mat files
+        mat_file = scipy.io.loadmat('S01.mat')    #Convert to loop by adding all the mat files
         raw_file = scipy.io.loadmat('S01_dataset.mat') #Convert to loop by adding all the dataset files.     
         #print(raw_file['raw']['trial'][0][0][0][0].shape)
         matrix = []
@@ -21,6 +20,8 @@ def extract_eeg_feature_for_sentences(sentence_list):
 #                     single_participant[word].append(filtered_data)
 #                 except:
 #                     single_participant[word]=[filtered_data]
+                
+                filtered_data = filtered_data.mean(axis = 1)
                 row.append(filtered_data)
             matrix.append(row)
                 

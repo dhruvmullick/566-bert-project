@@ -36,7 +36,7 @@ def get_sentences_by_proportion(proportion=80):
         starting_index += len(reference_sentence_list)
         if len(' '.join(idol_sentence_list)):final_sentence.append(' '.join(idol_sentence_list))
     random.shuffle(final_sentence)
-    for i in final_sentence:print(i,'\n')
+    #for i in final_sentence:print(i,'\n')
     partition_point = int(proportion*len(final_sentence))
     train_set,testing_set = final_sentence[:partition_point],final_sentence[partition_point:]
     return train_set, testing_set
