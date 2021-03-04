@@ -12,13 +12,19 @@ def get_sentence():
     content = content.lower()
     sentence = ""
     for character in range(len(content)):
-        if content[character].isalpha() or content[character] == " " or content[character] == "." or (content[character] == "'" and content[character-1]!=" " and content[character+1]!=" "):
+        if content[character].isalpha() or content[character] == " " or content[character] == "?" or content[character] == "!" or content[character] == "." or (content[character] == "'" and content[character-1]!=" " and content[character+1]!=" "):
             sentence+=content[character]
 
 
     sentence = sentence.replace('waistcoatpocket','waistcoat pocket')
     sentence = sentence.replace("'",' ')
+    
+    #To include ? and ! apart from . and consider them as different sentence.
+    sentence = sentence.replace("?",".")
+    sentence = sentence.replace("!",".")
+    
     sentence = sentence.split('.')
+    print(len(sentence))
     return sentence
 
     
@@ -41,6 +47,6 @@ def get_sentences_by_proportion(proportion=80):
     train_set,testing_set = final_sentence[:partition_point],final_sentence[partition_point:]
     return train_set, testing_set
 
-# data = true_word_sourcer(90)
+data = get_sentences_by_proportion(90)
 # train_set = data[0]
 # test_set = data[1]
