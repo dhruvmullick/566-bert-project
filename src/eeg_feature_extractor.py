@@ -1,5 +1,7 @@
 import scipy
 import numpy as np
+
+
 def extract_eeg_feature_for_sentences(sentence_list):
     main_list = []
     for participant in range(1):   # change to number of participant
@@ -20,14 +22,15 @@ def extract_eeg_feature_for_sentences(sentence_list):
 #                     single_participant[word].append(filtered_data)
 #                 except:
 #                     single_participant[word]=[filtered_data]
+
                 
                 filtered_data = filtered_data.mean(axis = 1)
-                row.append(filtered_data)
-            matrix.append(row)
+                row.append(np.array(filtered_data))
+            matrix.append(np.array(row))
                 
         #main_list.append(single_participant)
-        main_list.append(matrix)
-    return main_list
+        main_list.append(np.array(matrix))
+    return np.array(main_list)
 
 #Participant - Sentence - Word
 # data = eeg_feature_extractor(train_set)

@@ -15,7 +15,6 @@ def get_sentence():
         if content[character].isalpha() or content[character] == " " or content[character] == "?" or content[character] == "!" or content[character] == "." or (content[character] == "'" and content[character-1]!=" " and content[character+1]!=" "):
             sentence+=content[character]
 
-
     sentence = sentence.replace('waistcoatpocket','waistcoat pocket')
     sentence = sentence.replace("'",' ')
     
@@ -46,7 +45,3 @@ def get_sentences_by_proportion(proportion=80):
     partition_point = int(proportion*len(final_sentence))
     train_set,testing_set = final_sentence[:partition_point],final_sentence[partition_point:]
     return train_set, testing_set
-
-data = get_sentences_by_proportion(90)
-# train_set = data[0]
-# test_set = data[1]
