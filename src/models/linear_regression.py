@@ -1,20 +1,17 @@
-import enum
-
 import numpy as np
 from sklearn.linear_model import RidgeCV
 from sklearn.model_selection import KFold
+from sklearn.metrics import mean_squared_error
 
 '''
 Ridge Regression for applying on EEG data. 
-To be accessed through evaluation() method call. This will abstract the training, testing process as per the evaluation method selected.  
+To be accessed through evaluate() method call. This will abstract the training, testing process as per the evaluation method selected.  
 '''
 
 
 class EegLinearRegression:
-    #cv_types = enum.Enum('nested_cv')
-
     # Initialise the ridge regression model.
-    def __init__(self, folds=5, regularisation_bound=(0.1, 200), max_iterations=500):
+    def __init__(self, folds=5, regularisation_bound=(0.1, 200)):
         # The regularisation parameters to select from.
         alphas = np.logspace(regularisation_bound[0], regularisation_bound[1], num=500)
         # Uses K-Fold CV here here. Does CV over alphas to get the best one.
@@ -26,7 +23,8 @@ class EegLinearRegression:
 
     # Test the LR model to get the predicted score for the given input data.
     def __test(self, x, y):
-        return self.model.score(x, y)
+        predicted = self.model.predict(x)
+        return mean_squared_error(predicted, y)
 
     # Calculate the nested cv score.
     def __nested_cv_score(self, x, y, outer_folds=5):
@@ -43,6 +41,5 @@ class EegLinearRegression:
         return np.average(np.array(scores))
 
     # Evaluate the LR model by giving an accuracy value. Will accept type of evaluation as well.
-    def evaluate(self, x, y, cv_type="X"):
-      if cv_type == "X":
-          return self.__nested_cv_score(x, y)
+    def evaluate(self, x, y):
+        return self.__nested_cv_score(x, y)
