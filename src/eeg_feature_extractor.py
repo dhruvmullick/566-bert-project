@@ -1,10 +1,11 @@
 import scipy
 import numpy as np
+import sklearn
 
 
 def extract_eeg_feature_for_sentences(sentence_list):
     main_list = []
-    for participant in range(1,24):   # change to number of participant
+    for participant in range(1,20):   # change to number of participant
         if participant == 5:continue
         print('Participant : ',participant,' in progress')
         try:
@@ -25,6 +26,7 @@ def extract_eeg_feature_for_sentences(sentence_list):
                   onset, offset = int(mat_file['proc']['trl'][0][0][index-1][0]),int(mat_file['proc']['trl'][0][0][index-1][1])
                   filtered_data = raw_file['raw']['trial'][0][0][0][0][:,onset-1:offset]
                   filtered_data = filtered_data.mean(axis = 1)
+                  
                   row.append(np.array(filtered_data))
               #print(len(row[0]))
               matrix.append(np.array(row))
