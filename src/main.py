@@ -11,17 +11,14 @@ layer_numbers = [9]
 train_set_sentences, testing_set_sentences = get_sentences_by_proportion()
 sentences = train_set_sentences + testing_set_sentences
 
-
-
 eeg_representations = extract_eeg_feature_for_sentences(sentences)
 eeg_representations_averaged = average_eeg_over_participants(eeg_representations)
 eeg_representations_truncated = []
 
 for i in range(eeg_representations_averaged.shape[0]):
-    eeg_representations_truncated.append(eeg_representations_averaged[i][:min(len(eeg_representations_averaged[i]), MAX_BERT_SIZE)])
+    eeg_representations_truncated.append(
+        eeg_representations_averaged[i][:min(len(eeg_representations_averaged[i]), MAX_BERT_SIZE)])
 eeg_representations_truncated = np.array(eeg_representations_truncated)
-
-
 
 bert_features_for_sentences = []
 
@@ -45,7 +42,7 @@ min_max_scaler = preprocessing.MinMaxScaler()
 flatten_eeg_representations_truncated = min_max_scaler.fit_transform(flatten_eeg_representations_truncated)
 flatten_bert_features_for_sentences = []
 for i in range(len(bert_features_for_sentences)):
-  flatten_bert_features_for_sentences.extend(bert_features_for_sentences[i])
+    flatten_bert_features_for_sentences.extend(bert_features_for_sentences[i])
 
 flatten_eeg_representations_truncated = np.array(flatten_eeg_representations_truncated)
 flatten_bert_features_for_sentences = np.array(flatten_bert_features_for_sentences)
