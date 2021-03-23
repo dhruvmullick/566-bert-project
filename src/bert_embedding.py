@@ -12,7 +12,8 @@ def encode_sentences(sentence, tokenizer, max_length=64):
         pad_to_max_length=True,  # Add [PAD]s
         return_attention_mask=True,  # Generate the attention mask
         return_tensors='pt',  # ask the function to return PyTorch tensors
-        return_token_type_ids=False
+        return_token_type_ids=False,
+        truncation=True
         # For having embeddings of a sentence we don't need it. However if we want to go with QA we need this.
     )
 
