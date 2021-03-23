@@ -22,8 +22,7 @@ def encode_sentences(sentence, tokenizer, max_length=64):
     return input_ids, attention_mask
 
 
-def get_bert_features(text=""):
-    text = "Here is a sample sentence, which I want its embeddings."
+def get_bert_features(text):
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')  # Initializing the Tokenizer
     model = BertModel.from_pretrained('bert-base-uncased', output_hidden_states=True,
                                       # Whether the model returns all hidden-states
@@ -49,7 +48,7 @@ def get_bert_features(text=""):
     # It is not in format of Pytorch Tensors
 
 
-def get_bert_features_for_layer(text="", layer=12):
+def get_bert_features_for_layer(text, layer=12):
     bert_features_for_all_layers = get_bert_features(text)
     return bert_features_for_all_layers[layer]
 
