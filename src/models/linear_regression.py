@@ -1,8 +1,8 @@
 import numpy as np
 from sklearn.linear_model import RidgeCV
 from sklearn.model_selection import KFold
-from sklearn.metrics import mean_squared_error
-
+from sklearn.metrics import mean_squared_error, explained_variance_score
+import pickle
 '''
 Ridge Regression for applying on EEG data. 
 To be accessed through evaluate() method call. This will abstract the training, testing process as per the evaluation method selected.  
@@ -19,12 +19,16 @@ class EegLinearRegression:
 
     # Fit the LR model on the input data.
     def __train(self, x, y):
-        return self.model.fit(x, y)
+      trained_model = self.model.fit(x, y)
+      # pickle.dump(trained_model,open('ridge_regression.sav','wb'))
+      return trained_model
 
     # Test the LR model to get the predicted score for the given input data.
     def __test(self, x, y):
         predicted = self.model.predict(x)
-        return mean_squared_error(predicted, y)
+        # return mean_squared_error(predicted, y)
+        return explained_variance_score(predicted, y)
+
 
     # Calculate the nested cv score.
     def __nested_cv_score(self, x, y, outer_folds=5):
