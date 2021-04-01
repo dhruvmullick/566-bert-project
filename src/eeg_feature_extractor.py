@@ -7,8 +7,8 @@ from bert_embedding import *
 
 def extract_eeg_feature_for_sentences(sentence_list):
     main_list = []
-    not_present = [47, 46, 33, 31, 29, 28]
-    participant_filter = [23, 25, 26, 27, 28, 29, 30, 31]
+    not_present = [47, 46, 33, 31, 29, 28, 38]
+    participant_filter = [4, 23, 25, 26, 27, 28, 29, 30, 31]
     participant_counter = -1
     # red_word = [36,35,34,32,30,24,26,27]
 
@@ -66,8 +66,8 @@ def extract_eeg_feature_for_sentences(sentence_list):
 
 def extract_eeg_window_feature_for_sentences(sentence_list):
     main_list = []
-    not_present = [47, 46, 33, 31, 29, 28]
-    participant_filter = [23, 25, 26, 27, 28, 29, 30, 31]
+    not_present = [47, 46, 33, 31, 29, 28, 38]
+    participant_filter = [4, 23, 25, 26, 27, 28, 29, 30, 31]
     participant_counter = -1
     # red_word = [36,35,34,32,30,24,26,27]
 
