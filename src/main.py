@@ -47,6 +47,19 @@ for i in range(len(bert_features_for_sentences)):
 flatten_eeg_representations_truncated = np.array(flatten_eeg_representations_truncated)
 flatten_bert_features_for_sentences = np.array(flatten_bert_features_for_sentences)
 
+# SEEING NAN VALUES FOR THIS WORD. SO JUST REMOVE THEM.
+flatten_eeg_representations_truncated = np.delete(flatten_eeg_representations_truncated,(862),axis=0)
+
+# test to see if any NaNs or Infs in data
+if np.isnan(flatten_bert_features_for_sentences).any().any() or np.isinf(flatten_bert_features_for_sentences).any().any():
+    print("badness in BERT")
+if np.isnan(flatten_eeg_representations_truncated).any().any() or np.isinf(flatten_eeg_representations_truncated).any().any():
+    print("badness in EEG")
+if np.any(np.isnan(flatten_eeg_representations_truncated)) or np.any(np.isnan(flatten_bert_features_for_sentences)):
+    print("issue with nan")
+if not np.all(np.isfinite(flatten_eeg_representations_truncated)) or not np.all(np.isfinite(flatten_bert_features_for_sentences)):
+    print("issue with finite")
+
 if ENABLE_STATISTICAL_TEST:
     file1 = open("permutation_results.txt", "w")
     for test_count in range(0, 20):
