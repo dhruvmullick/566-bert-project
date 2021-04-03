@@ -49,6 +49,7 @@ flatten_bert_features_for_sentences = np.array(flatten_bert_features_for_sentenc
 
 # SEEING NAN VALUES FOR THIS WORD. SO JUST REMOVE THEM.
 flatten_eeg_representations_truncated = np.delete(flatten_eeg_representations_truncated,(862),axis=0)
+flatten_bert_features_for_sentences = np.delete(flatten_bert_features_for_sentences,(862),axis=0)
 
 # test to see if any NaNs or Infs in data
 if np.isnan(flatten_bert_features_for_sentences).any().any() or np.isinf(flatten_bert_features_for_sentences).any().any():
