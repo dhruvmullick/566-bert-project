@@ -47,13 +47,13 @@ ENABLE_STATISTICAL_TEST = False
 
 We have the following modules in our code: 
 * [main.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/main.py): The entry point for our project where we orchestrate the different modules in our code and also set variables to be used in experiments (as mentioned above) 
-* [linear_regression.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/models/linear_regression.py): 
-* [neural_network.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/models/neural_network.py): 
-* [bert_embedding.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/bert_embedding.py): 
-* [data_processor.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/data_processor.py):
-* [eeg_feature_extractor.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/eeg_feature_extractor.py): 
-* [plot_statistical_tests.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/plot_statistical_tests.py): 
-* [true_word_sourcer.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/true_word_sourcer.py): 
+* [linear_regression.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/models/linear_regression.py): Holds the model to be used for implementing a nested cross validation evaluation technique over linear regression.
+* [neural_network.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/models/neural_network.py): Holds the model to be used for implementing a nested cross validation evaluation technique over 1 hidden layer neural network.
+* [bert_embedding.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/bert_embedding.py): extracts embeddings for the sentence tokens from BERT for the required layers. 
+* [data_processor.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/data_processor.py): Some utility methods. 
+* [eeg_feature_extractor.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/eeg_feature_extractor.py): Extract EEG features for the different words from Alice dataset. 
+* [plot_statistical_tests.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/plot_statistical_tests.py): Plot the histograms for the saved data file for permutation tests (which were genereated from main.py). 
+* [true_word_sourcer.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/true_word_sourcer.py): Get the words used in Alice dataset. 
 
 
 [Back To The Top](#566-bert-project )
