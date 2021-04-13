@@ -26,29 +26,34 @@ For more details, please check the [video](https://www.youtube.com/watch?v=zb4UG
 
 ### Experiments
 
-* To enable the sliding window in the codebase, change the value of Boolean variable to True 
+* To enable the sliding window in the codebase, change the value of Boolean variable to True in main.py
 ```html
 ENABLE_SLIDING_WINDOW = False
 ```
-* To enable the BERT layer concatenation in the codebase, change the value of ENABLE_BERT_LAYER_CONCAT variable to True 
+* To enable the BERT layer concatenation in the codebase, change the value of ENABLE_BERT_LAYER_CONCAT variable to True in main.py
 ```html
 ENABLE_BERT_LAYER_CONCAT = False
 ```
-* To enable the dimensionality reduction in the codebase, change the value of ENABLE_DIM_RED variable to True
+* To enable the dimensionality reduction in the codebase, change the value of ENABLE_DIM_RED variable to True in main.py
 ```html
 ENABLE_DIM_RED = False
 ```
-* To enable the statistical test in the code in the codebase, change the value of ENABLE_STATISTICAL_TEST variable to True
+* To enable the statistical test in the code in the codebase, change the value of ENABLE_STATISTICAL_TEST variable to True in main.py
 ```html
 ENABLE_STATISTICAL_TEST = False
 ``` 
 
 ## Code Details
 
+We have the following modules in our code: 
+* [main.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/main.py): The entry point for our project where we orchestrate the different modules in our code and also set variables to be used in experiments (as mentioned above) 
+* [linear_regression.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/models/linear_regression.py): 
+* [neural_network.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/models/neural_network.py): 
+* [bert_embedding.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/bert_embedding.py): 
+* [data_processor.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/data_processor.py):
+* [eeg_feature_extractor.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/eeg_feature_extractor.py): 
+* [plot_statistical_tests.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/plot_statistical_tests.py): 
+* [true_word_sourcer.py](https://github.com/dhruvmullick/566-bert-project/blob/main/src/true_word_sourcer.py): 
 
 
 [Back To The Top](#566-bert-project )
-
-
-
-
