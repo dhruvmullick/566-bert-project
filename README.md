@@ -5,6 +5,7 @@
 
 - [Description](#description)
 - [How To Use](#how-to-use)
+- [Code Details](#code-details)
 
 
 ## Description
@@ -35,6 +36,8 @@ ENABLE_DIM_RED = False
 ```html
 ENABLE_STATISTICAL_TEST = False
 ``` 
+
+## Code Details
 
 [Back To The Top](#566-bert-project )
 
