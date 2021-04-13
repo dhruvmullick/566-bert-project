@@ -1,5 +1,5 @@
 ## 566-bert-project : Are Multi-Layer BERT Features and EEG Data Correlated?
-![](images/overview.png)
+![](images/updated_overview.png)
 
 ### Table of Contents
 
