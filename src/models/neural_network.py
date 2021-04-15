@@ -22,7 +22,7 @@ class NeuralNetwork:
     def __nn_model(self, num_hidden):
         model = Sequential()
         model.add(Dense(num_hidden, activation='relu'))
-        model.add(Dense(1, activation='linear'))
+        model.add(Dense(768, activation='linear'))
         model.compile(loss='mean_squared_error', optimizer='adam')
         return model
 
