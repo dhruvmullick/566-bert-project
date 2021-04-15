@@ -13,7 +13,7 @@ layer_numbers = [12]
 
 ENABLE_SLIDING_WINDOW = False  # if true, dim(EEG word represenations) = 372, o/w 62
 ENABLE_BERT_LAYER_CONCAT = False
-ENABLE_DIM_RED = False # perform dimensionality reduction step
+ENABLE_DIM_RED = False  # perform dimensionality reduction step
 ENABLE_STATISTICAL_TEST = False
 
 
@@ -35,8 +35,10 @@ def create_PCA_representation(X, scale=True, var_cutoff=0.8):
 sentences_for_eeg, sentences_for_BERT = get_sentences_by_proportion()
 
 # create EEG representations based on if we want to use the sliding window technique or not
-if ENABLE_SLIDING_WINDOW: eeg_representations = extract_eeg_window_feature_for_sentences(sentences_for_eeg)
-else: eeg_representations = extract_eeg_feature_for_sentences(sentences_for_eeg)
+if ENABLE_SLIDING_WINDOW:
+    eeg_representations = extract_eeg_window_feature_for_sentences(sentences_for_eeg)
+else:
+    eeg_representations = extract_eeg_feature_for_sentences(sentences_for_eeg)
 
 eeg_representations_averaged = average_eeg_over_participants(eeg_representations)
 eeg_representations_truncated = []
@@ -52,7 +54,8 @@ for i in range(len(sentences_for_eeg)):
     features_list = []  # list of layers we're considering
     for layer_number in layer_numbers:
         features = get_bert_features_for_layer(sentences_for_BERT[i], layer_number)  # (512, 768)
-        features = features[1:min(MAX_BERT_SIZE, eeg_representations_truncated[i].shape[0]) + 1]  # (num words in sentence, 768)
+        features = features[
+                   1:min(MAX_BERT_SIZE, eeg_representations_truncated[i].shape[0]) + 1]  # (num words in sentence, 768)
         features_list.append(features)
     if ENABLE_BERT_LAYER_CONCAT:  # concat BERT layers
         features = np.concatenate(features_list, axis=1)  # (num words in sentence, 3072)
@@ -63,7 +66,7 @@ for i in range(len(sentences_for_eeg)):
 bert_features_for_sentences = np.array(bert_features_for_sentences)
 
 ridge_regression = EegLinearRegression()
-neural_network = NeuralNetwork()
+neural_network = NeuralNetwork(output_size=60)
 flatten_eeg_representations_truncated = []
 for i in range(len(eeg_representations_truncated)):
     flatten_eeg_representations_truncated.extend(eeg_representations_truncated[i])
@@ -81,18 +84,21 @@ if ENABLE_DIM_RED:
     flatten_bert_features_for_sentences = create_PCA_representation(flatten_bert_features_for_sentences)
 
 # SEEING NAN VALUES FOR THIS WORD. SO JUST REMOVE THEM.
-flatten_eeg_representations_truncated = np.delete(flatten_eeg_representations_truncated,(862),axis=0)
-flatten_bert_features_for_sentences = np.delete(flatten_bert_features_for_sentences,(862),axis=0)
+flatten_eeg_representations_truncated = np.delete(flatten_eeg_representations_truncated, (862), axis=0)
+flatten_bert_features_for_sentences = np.delete(flatten_bert_features_for_sentences, (862), axis=0)
 
 # test to see if any NaNs or Infs in data
-if np.isnan(flatten_bert_features_for_sentences).any().any() or np.isinf(flatten_bert_features_for_sentences).any().any():
+if np.isnan(flatten_bert_features_for_sentences).any().any() or np.isinf(
+        flatten_bert_features_for_sentences).any().any():
     print("badness in BERT")
     exit()
-if np.isnan(flatten_eeg_representations_truncated).any().any() or np.isinf(flatten_eeg_representations_truncated).any().any():
+if np.isnan(flatten_eeg_representations_truncated).any().any() or np.isinf(
+        flatten_eeg_representations_truncated).any().any():
     print("badness in EEG")
 if np.any(np.isnan(flatten_eeg_representations_truncated)) or np.any(np.isnan(flatten_bert_features_for_sentences)):
     print("issue with nan")
-if not np.all(np.isfinite(flatten_eeg_representations_truncated)) or not np.all(np.isfinite(flatten_bert_features_for_sentences)):
+if not np.all(np.isfinite(flatten_eeg_representations_truncated)) or not np.all(
+        np.isfinite(flatten_bert_features_for_sentences)):
     print("issue with finite")
 
 if ENABLE_STATISTICAL_TEST:
@@ -104,14 +110,13 @@ if ENABLE_STATISTICAL_TEST:
         print(score)
     file1.close()
 
-#score,weights = ridge_regression.evaluate(flatten_bert_features_for_sentences,flatten_eeg_representations_truncated)
-score,weights = ridge_regression.evaluate(flatten_eeg_representations_truncated, flatten_bert_features_for_sentences)
+# score,weights = ridge_regression.evaluate(flatten_bert_features_for_sentences,flatten_eeg_representations_truncated)
+score, weights = ridge_regression.evaluate(flatten_eeg_representations_truncated, flatten_bert_features_for_sentences)
 weights = weights[0]
 
 random_1 = weights[150]
 random_2 = weights[550]
 random_3 = weights[680]
-
 
 with open("random1.txt", "w") as output:
     output.write(str(random_1))
@@ -122,13 +127,12 @@ with open("random2.txt", "w") as output:
 with open("random3.txt", "w") as output:
     output.write(str(random_3))
 
-
 # weights = str(weights)
 # text_file = open("optimal_weights_eeg_bert.txt", "w")
 # text_file.write(weights)
 # text_file.close()
-#score = neural_network.evaluate(flatten_eeg_representations_truncated,flatten_bert_features_for_sentences)
-#score = neural_network.evaluate(flatten_bert_features_for_sentences,flatten_eeg_representations_truncated)
+# score = neural_network.evaluate(flatten_eeg_representations_truncated,flatten_bert_features_for_sentences)
+# score = neural_network.evaluate(flatten_bert_features_for_sentences,flatten_eeg_representations_truncated)
 
 print(score)
 print(weights)

@@ -11,18 +11,24 @@ To be accessed through evaluate() method call. This will abstract the training, 
 
 class NeuralNetwork:
     # Initialise the ridge regression model.
-    def __init__(self, folds=5, num_epochs=10, batch_size=100, hidden_layer_size_range=range(16, 64, 16)):
+    def __init__(self, folds=5, num_epochs=10, batch_size=100, hidden_layer_size_range=range(16, 64, 16),
+                 output_size=60):
+        """
+
+        :param output_size: 768 for BERT, 60 for EEG
+        """
         # Uses K-Fold CV here here. Does CV over alphas to get the best one.
         self.folds = folds
         self.num_epochs = num_epochs
         self.batch_size = batch_size
         self.hidden_layer_size_range = hidden_layer_size_range
+        self.output_size = output_size
 
     # Define the NN model to use for a given number of hidden layer size.
     def __nn_model(self, num_hidden):
         model = Sequential()
         model.add(Dense(num_hidden, activation='relu'))
-        model.add(Dense(768, activation='linear'))
+        model.add(Dense(self.output_size, activation='linear'))
         model.compile(loss='mean_squared_error', optimizer='adam')
         return model
 
@@ -48,7 +54,8 @@ class NeuralNetwork:
                     # Define the model
                     model = self.__nn_model(hidden_layer_size)
                     # Fit data to model
-                    history = self.__train(model, x[outer_train_idx[inner_train_idx]], y[outer_train_idx[inner_train_idx]])
+                    history = self.__train(model, x[outer_train_idx[inner_train_idx]],
+                                           y[outer_train_idx[inner_train_idx]])
                     # Generate generalization metrics
                     score = self.__test(model, x[outer_train_idx[inner_test_idx]], y[outer_train_idx[inner_test_idx]])
                     acc_per_fold.append(score)
